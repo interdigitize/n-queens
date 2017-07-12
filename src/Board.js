@@ -79,12 +79,23 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      // input: index number: array reference
+      // output: boolean;
+      // process: reduce all values, if value > 1, return true;
+      return (this.get(rowIndex).reduce(function(acc, next) {
+        acc += next;
+        return acc;
+      }) > 1);
     },
 
     // test if any rows on this board contain conflicts
-    hasAnyRowConflicts: function() {
-      return false; // fixme
+    hasAnyRowConflicts: function() {   
+      for (var i = 0; i < this.get('n'); i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        } 
+      }
+      return false;
     },
 
 
