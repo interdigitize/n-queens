@@ -31,13 +31,21 @@ window.countNRooksSolutions = function(n) {
   var solutionCount = 0;    
   var currentBoard = [];
   var rowOptions = window.findNRooksSolution(n);
-  for (var i = 0; i < rowOptions.length; i++) {
-    var firstSlice = currentBoard.push(rowOptions[0]);
-    console.log('**', currentBoard);
-    
-  }  
 
-
+  // helper function that iterates through rowOptions and finds board solutions
+  var findSolutions = function() {
+    var rowOptionsCopy = rowOptions.slice();
+    for (var i = 0; i < rowOptionsCopy.length; i++) {
+      debugger;
+      //add the current element to the board
+      currentBoard.push(rowOptionsCopy[i]);
+      //remove the current element from the array 
+      rowOptionsCopy.splice(i, 1);
+      //recurse
+    }
+    solutionCount++;
+  };  
+  findSolutions();
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
