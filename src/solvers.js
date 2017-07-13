@@ -28,23 +28,36 @@ window.findNRooksSolution = function(n) {
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
   // store solution count
-  var solutionCount = 0;    
-  var currentBoard = [];
-  var rowOptions = window.findNRooksSolution(n);
+  var solutionCount = 0;  
+  var possibleRows = window.findNRooksSolution(n);
+  var possibleRowsLeft = possibleRows.slice();
+  var board = [];
 
-  // helper function that iterates through rowOptions and finds board solutions
+  // helper function that iterates through possibleRows and finds board solutions
   var findSolutions = function() {
-    var rowOptionsCopy = rowOptions.slice();
-    for (var i = 0; i < rowOptionsCopy.length; i++) {
-      debugger;
-      //add the current element to the board
-      currentBoard.push(rowOptionsCopy[i]);
-      //remove the current element from the array 
-      rowOptionsCopy.splice(i, 1);
+    //loop through each possible row
+    for (var i = 0; i < n - 1; i++) {
+      var row = possibleRowsLeft[i];
+      //add a row to the board
+      console.log(possibleRowsLeft.length);
+      if (!possibleRowsLeft.length) {
+        //add to the solution 
+        solutionCount++;
+        //reset the board
+        board = [];
+        debugger;
+        return;
+      }
+      //BUG SOMEWHERE HERE
+      board.push(row);
+      //remove the row from a possible option for the next row
+      possibleRowsLeft.splice(i, 1);
       //recurse
-    }
-    solutionCount++;
-  };  
+      findSolutions();
+    } 
+    //exit the function
+    return;
+  };
   findSolutions();
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
