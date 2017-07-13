@@ -21,15 +21,22 @@ window.findNRooksSolution = function(n) {
     board.togglePiece(i, i);
   }
   var solution = board.rows();
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  // var board = new Board({n: 4});
-  //var solution = [[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]];
-  var solutionCount = undefined; //fixme
+  // store solution count
+  var solutionCount = 0;    
+  var currentBoard = [];
+  var rowOptions = window.findNRooksSolution(n);
+  for (var i = 0; i < rowOptions.length; i++) {
+    var firstSlice = currentBoard.push(rowOptions[0]);
+    console.log('**', currentBoard);
+    
+  }  
+
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
