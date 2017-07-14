@@ -68,36 +68,40 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  // var board = new Board({n: n});
-  // var pieces = 0;
-  // var findSolution = () => {
-  //   // if the number of pieces equals the number of rows, it is done
-  //   if (pieces === n) {
-  //     //chalk up a solution
-  //     solutionCount++; 
-  //     //exit the function call
-  //     return;
-  //   }
-  //   var row = pieces;
-  //   for (var col = 0; col < n; col++) {
-  //     if (board.rows()[row][col] === 0) {
-  //     // toggle a piece 
-  //       board.togglePiece(row, col);
-  //       pieces++;
-  //       //check if there is a row or col conflict
-  //       if (board.hasAnyRooksConflicts(row, col) && board.hasAnyQueensConflicts()) {
-  //         // if there is a row or column conflict, toggle it again 
-  //         board.togglePiece(row, col);
-  //         pieces--;
-  //       } else {
-  //         findSolution();
-  //         board.togglePiece(row, col);
-  //         pieces--;
-  //       }
-  //     }
-  //   }
-  // };
-  // findSolution();
+  debugger;
+  var board = new Board({n: n});
+  board.togglePiece(0, 1);
+  var pieces = 1;
+  var solution = [];
+  var findSolution = () => {
+    // if the number of pieces equals the number of rows, it is done
+    if (pieces === n) {
+      //chalk up a solution
+      solution.push(board.rows());
+      //solutionCount++; 
+      //exit the function call
+      return;
+    }
+    var row = pieces;
+    for (var col = 0; col < n; col++) {
+      row = pieces;
+      if (board.rows()[row][col] === 0) {
+      // toggle a piece 
+        board.togglePiece(row, col);
+        pieces++;
+        //check if there is a row or col conflict
+        if (board.hasAnyRooksConflicts(row, col) || board.hasAnyQueensConflicts(row, col)) {
+          // if there is a row or column conflict, toggle it again 
+          board.togglePiece(row, col);
+          pieces--;
+        } else {
+          findSolution();
+        }
+      }
+    }
+  };
+  findSolution();
+  return solution[0];
 
 
 
@@ -114,7 +118,6 @@ window.countNQueensSolutions = function(n) {
     // if the number of pieces equals the number of rows, it is done
     if (pieces === n) {
       //chalk up a solution
-      debugger;
       solutionCount++; 
       //exit the function call
       return;
