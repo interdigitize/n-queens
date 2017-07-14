@@ -32,36 +32,32 @@ window.countNRooksSolutions = function(n) {
   var solutionCount = 0;  
   // add a new board
   var board = new Board({n: n});
+  var pieces = 0;
   var findSolution = () => {
-
     // check if all the pieces are on the board;
+    
     if (pieces === n) {
+      solutionCount++;
       return;
     }
-    // loop through the first row
-    var pieces = 0;
-    for (var row = 0; row < n; row++) {
-      for (var col = 0; col < n; col++) {
-        //
-        // toggle a piece 
-        console.log('row: ', row);
-        console.log('column: ', col);
+    var row = pieces;
+    for (var col = 0; col < n; col++) {
+      if (board.rows()[row][col] === 0) {
+      // toggle a piece 
         board.togglePiece(row, col);
+        pieces++;
         //check if there is a row or col conflict
-        if (board.hasRooksConflict(row, col)) {
+        if (board.hasAnyRooksConflicts(row, col)) {
           // if there is a row or column conflict, toggle it again 
           board.togglePiece(row, col);
+          pieces--;
         } else {
-        
+          findSolution();
+          board.togglePiece(row, col);
+          pieces--;
         }
       }
-      
     }
-    // if there are no more rows, increment solutionCount
-    solutionCount++;
-    console.log(board);
-    // findSolution();
-    
   };
   findSolution();
   
