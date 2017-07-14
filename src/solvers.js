@@ -27,38 +27,28 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  // store solution count
   var solutionCount = 0;  
-  var possibleRows = window.findNRooksSolution(n);
-  var possibleRowsLeft = possibleRows.slice();
-  var board = [];
-
-  // helper function that iterates through possibleRows and finds board solutions
-  var findSolutions = function() {
-    //loop through each possible row
-    for (var i = 0; i < n - 1; i++) {
-      var row = possibleRowsLeft[i];
-      //add a row to the board
-      console.log(possibleRowsLeft.length);
-      if (!possibleRowsLeft.length) {
-        //add to the solution 
-        solutionCount++;
-        //reset the board
-        board = [];
-        debugger;
-        return;
+  // add a new board
+  var board = new Board({n: n});
+  var findSolution = () => {
+    // loop through the first row
+    for (var row = 0; row < n; row++) {
+      for (var col = 0; col < n; col++) {
+        // toggle a piece 
+        board.togglePiece(row, col);
+        //check if there is a row or col conflict
+        if (board.hasRowConflictAt(row) || board.hasColConflictAt(col)) {
+          // if there is a row or column conflict, toggle it again 
+          board.togglePiece(row, col);
+        }     
       }
-      //BUG SOMEWHERE HERE
-      board.push(row);
-      //remove the row from a possible option for the next row
-      possibleRowsLeft.splice(i, 1);
-      //recurse
-      findSolutions();
-    } 
-    //exit the function
-    return;
+    }
+    // if there are no more rows, increment solutionCount
+    solutionCount++;
+    console.log(board);
   };
-  findSolutions();
+  findSolution();
+  
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
